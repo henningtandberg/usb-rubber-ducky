@@ -6,4 +6,4 @@ Experimenting with USB Rubber Ducky
 - https://projecthub.arduino.cc/RucksikaaR/interfacing-the-hc-06-bluetooth-module-with-arduino-94aabd
 - https://github.com/joelsernamoreno/badusb_sd_wifi/blob/master/README.md
 - https://github.com/SpacehuhnTech
-- 
+- https://github.com/puckk/CJMCU-3212
