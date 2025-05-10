@@ -13,7 +13,7 @@
 #define DUCKYP_PAYLOAD_MAX_SIZE (UART_BUFFER_SIZE_BYTES - DUCKYP_HEADR_SIZE)
 #define DUCKYP_PACKET_MAX_SIZE  (DUCKYP_HEADDR_SIZE + DUCKYP_PAYLOAD_MAX_SIZE)
 
-#define DUCKYP_TYPE_KEYSTROKE   0x00
+#define DUCKYP_TYPE_COMMAND     0x00
 
 typedef struct duckyp_header {
     uint8_t type;
@@ -25,7 +25,6 @@ typedef struct duckyp_packet {
     char payload[];
 } __attribute__((packed)) duckyp_packet;
 
-char duckyp_get_keystroke(struct duckyp_packet *packet);
-int duckyp_create_keystroke(struct duckyp_packet **packet, char keystroke);
+int duckyp_create_packet(struct duckyp_packet **packet, uint8_t type, uint8_t len, const char *payload);
 
 #endif //USB_RUBBER_DUCKY_DUCKYP_H

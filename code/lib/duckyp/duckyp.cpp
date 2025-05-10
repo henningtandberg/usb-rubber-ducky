@@ -4,32 +4,18 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "duckyp.h"
 
-char duckyp_get_keystroke(struct duckyp_packet *packet)
+int duckyp_create_packet(struct duckyp_packet **packet, uint8_t type, uint8_t len, const char *payload)
 {
-    if (packet->header.type != DUCKYP_TYPE_KEYSTROKE)
-    {
-        return -1;
-    }
-
-    if (packet->header.len != 1)
-    {
-        return -1;
-    }
-
-    return packet->payload[0];
-}
-
-int duckyp_create_keystroke(struct duckyp_packet **packet, char keystroke)
-{
-    size_t packet_size = sizeof(struct duckyp_header) + sizeof(char);
+    size_t packet_size = sizeof(struct duckyp_header) + len;
     (*packet) = (struct duckyp_packet *)malloc(packet_size);
 
-    (*packet)->header.type = DUCKYP_TYPE_KEYSTROKE;
-    (*packet)->header.len = 1;
-    (*packet)->payload[0] = keystroke;
+    (*packet)->header.type = type;
+    (*packet)->header.len = len;
+    memcpy((*packet)->payload, payload, sizeof(char) * len);
 
     return 0;
 }
