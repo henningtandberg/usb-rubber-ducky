@@ -8,14 +8,16 @@
 
 #include "duckyp.h"
 
-int duckyp_create_packet(struct duckyp_packet **packet, uint8_t type, uint8_t len, const char *payload)
+duckyp_packet * duckyp_create_packet(uint8_t type, uint8_t len, const char *payload)
 {
-    size_t packet_size = sizeof(struct duckyp_header) + len;
-    (*packet) = (struct duckyp_packet *)malloc(packet_size);
+    duckyp_packet *packet;
 
-    (*packet)->header.type = type;
-    (*packet)->header.len = len;
-    memcpy((*packet)->payload, payload, sizeof(char) * len);
+    size_t packet_size = sizeof(duckyp_header) + len;
+    packet = (duckyp_packet *)malloc(packet_size);
 
-    return 0;
+    packet->header.type = type;
+    packet->header.len = len;
+    memcpy(packet->payload, payload, sizeof(char) * len);
+
+    return packet;
 }
