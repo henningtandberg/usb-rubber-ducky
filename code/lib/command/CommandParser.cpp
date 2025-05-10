@@ -11,7 +11,9 @@
 #include "CommandParser.h"
 
 command_t * CommandParser::parse_command(const std::string &command_string) {
+    // Create buffer and capture command type
     std::string command_type = command_string.substr(0, command_string.find(' '));
+    // Pointer evilness
     std::string command_string_without_type = command_string.substr(command_type.length() + 1, command_string.length());
 
     if (command_type.compare("KP") == 0) {
@@ -37,25 +39,23 @@ command_t * CommandParser::parse_command(const std::string &command_string) {
     }
 }
 
-
-
 command_t * CommandParser::parse_keyboard_keypress(const std::string& command_string_without_type) {
-    std::vector<std::string> keys_to_press = CommandParser::split(command_string_without_type, '+');
-    command_t *command = (command_t *)malloc(sizeof(command_t) + keys_to_press.size());
+    // strtok :(((
+    int token_count = CommandParser::count_tokens(command_string_without_type.c_str(), "+");
+    char ** keys_to_press = CommandParser::split(command_string_without_type.c_str(), "+");
+
+    command_t *command = (command_t *)malloc(sizeof(command_t) + token_count);
 
     command->type = COMMAND_TYPE_KEYBOARD_KEYPRESS;
-    command->len = keys_to_press.size();
+    command->len = token_count;
 
-    std::vector<uint8_t> mapped_keys_to_press;
-    for(int i = 0; i < keys_to_press.size(); i++) {
-        //uint8_t keypress = lookup_keypress(keys_to_press[i]);
-        //mapped_keys_to_press.push_back(keypress);
-        printf("Key: %s \n", keys_to_press[i].c_str());
+    for(int i = 0; i < token_count; i++) {
         command->payload[i] = lookup_keypress(keys_to_press[i]);
     }
 
-    //memcpy(command->payload, mapped_keys_to_press.data(), command->len);
-
+    // Should go through each element and free
+    free(*keys_to_press);
+    free(keys_to_press);
     return command;
 }
 
@@ -83,17 +83,45 @@ command_t * CommandParser::parse_keyboard_keypress(const std::string& command_st
 //
 //}
 
-std::vector<std::string> CommandParser::split(const std::string& str, char delimiter) {
-    std::vector<std::string> tokens;
-    size_t start = 0;
-    size_t end = str.find(delimiter);
+int CommandParser::count_tokens(const char * str, const char * delimiter) {
+    int count = 0;
+    int str_len = strlen(str);
+    char * str_copy = (char *) malloc(sizeof(char) * str_len);
 
-    while (end != std::string::npos) {
-        tokens.push_back(str.substr(start, end - start));
-        start = end + 1;
-        end = str.find(delimiter, start);
+    memcpy(str_copy, str, str_len);
+
+    char * token = strtok(str_copy, delimiter);
+    while (token != NULL) {
+        count++;
+        token = strtok(NULL, delimiter);
     }
 
-    tokens.push_back(str.substr(start));
+    free(str_copy);
+    return count;
+}
+
+char ** CommandParser::split(const char * str, const char * delimiter) {
+    int str_len = strlen(str);
+    int token_count = count_tokens(str, delimiter);
+
+    printf("Token count: %d \n", token_count);
+    printf("String: %s \n", str);
+
+    char * str_copy = (char *) malloc(sizeof(char) * (str_len + 1));
+    memcpy(str_copy, str, str_len);
+    str_copy[str_len] = '\0';
+
+    char **tokens = (char **)malloc(sizeof(char *) * token_count);
+
+    char * token = strtok(str_copy, delimiter);
+    for (int i = 0; i < token_count && token != NULL; i++) {
+        printf("Token: %s \n", token);
+        int token_len = strlen(token);
+        tokens[i] = (char *)malloc(sizeof(char) * token_len);
+        memcpy(tokens[i], token, token_len);
+        token = strtok(NULL, delimiter);
+    }
+
+    free(str_copy);
     return tokens;
 }

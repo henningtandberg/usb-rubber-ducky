@@ -19,7 +19,7 @@
 
 class CommandParser {
 public:
-    static command_t * parse_command(const std::string& command_string);
+    static command_t * parse_command(const std::string &command_string);
 private:
     static command_t * parse_keyboard_keypress(const std::string& command_string_without_type);
     //static command_t parse_keyboard_print(const std::string& command_string_without_type);
@@ -28,7 +28,8 @@ private:
     //static command_t parse_mouse_move(const std::string& command_string_without_type);
     //static command_t parse_mouse_click(const std::string& command_string_without_type);
     //static command_t parse_execute_script(const std::string& command_string_without_type);
-    static std::vector<std::string> split(const std::string& str, char delimiter);
+    static int count_tokens(const char * str, const char * delimiter);
+    static char** split(const char * str, const char * delimiter);
 };
 
 #endif //USB_RUBBER_DUCKY_COMMANDPARSER_H
