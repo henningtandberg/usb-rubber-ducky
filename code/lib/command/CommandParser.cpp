@@ -21,19 +21,17 @@ command_t * CommandParser::parse_command(const char * command_string) {
     command_t * command;
     if (strcmp(command_type, "KP") == 0) {
         command = CommandParser::parse_keyboard_keypress(command_string_without_type);
-    }/* else if (command_type.compare("P")) {
-        return CommandParser::parse_keyboard_print(command_string_without_type);
-    } else if (command_type.compare("PLN")) {
-        return CommandParser::parse_keyboard_println(command_string_without_type);
-    } else if (command_type.compare("MM")) {
-        return CommandParser::parse_mouse_move(command_string_without_type);
-    } else if (command_type.compare("MM")) {
+    } else if (strcmp(command_type, "P") == 0) {
+        command = CommandParser::parse_keyboard_print(command_string_without_type);
+    } else if (strcmp(command_type, "PLN") == 0) {
+        command = CommandParser::parse_keyboard_println(command_string_without_type);
+    } /* else if (command_type.compare("MM")) {
         return CommandParser::parse_mouse_move(command_string_without_type);
     } else if (command_type.compare("MC")) {
         return CommandParser::parse_mouse_click(command_string_without_type);
-    } else if (command_type.compare("MC")) {
+    } */ else if (strcmp(command_type, "EXEC") == 0) {
         return CommandParser::parse_execute_script(command_string_without_type);
-    }*/ else {
+    } else {
         command = (command_t *)malloc(sizeof(command_t));
         command->type = COMMAND_TYPE_UNKNOWN;
         command->len = 0;
@@ -62,29 +60,46 @@ command_t * CommandParser::parse_keyboard_keypress(const char * command_string_w
     return command;
 }
 
-//command_t CommandParser::parse_keyboard_print(const std::string& command_string_without_type) {
-//
-//}
-//
-//command_t CommandParser::parse_keyboard_println(const std::string& command_string_without_type) {
-//
-//}
-//
+command_t * CommandParser::parse_keyboard_print(const char * command_string_without_type) {
+    int str_len = strlen(command_string_without_type);
+    command_t *command = (command_t *)malloc(sizeof(command_t) + str_len);
+
+    command->type = COMMAND_TYPE_KEYBOARD_PRINT;
+    command->len = str_len;
+    memcpy(command->payload, command_string_without_type, str_len);
+
+    return command;
+}
+
+command_t * CommandParser::parse_keyboard_println(const char * command_string_without_type) {
+    int str_len = strlen(command_string_without_type);
+    command_t *command = (command_t *)malloc(sizeof(command_t) + str_len);
+
+    command->type = COMMAND_TYPE_KEYBOARD_PRINTLN;
+    command->len = str_len;
+    memcpy(command->payload, command_string_without_type, str_len);
+
+    return command;
+}
+
 //command_t CommandParser::parse_mouse_move(const std::string& command_string_without_type) {
 //
 //}
-//
-//command_t CommandParser::parse_mouse_move(const std::string& command_string_without_type) {
-//
-//}
-//
+
 //command_t CommandParser::parse_mouse_click(const std::string& command_string_without_type) {
 //
 //}
-//
-//command_t CommandParser::parse_execute_script(const std::string& command_string_without_type) {
-//
-//}
+
+command_t * CommandParser::parse_execute_script(const char * command_string_without_type) {
+    int script_path_len = strlen(command_string_without_type);
+    command_t *command = (command_t *)malloc(sizeof(command_t) + script_path_len);
+
+    command->type = COMMAND_TYPE_EXECUTE_SCRIPT;
+    command->len = script_path_len;
+    memcpy(command->payload, command_string_without_type, script_path_len);
+
+    return command;
+}
 
 int CommandParser::count_tokens(const char * str, const char * delimiter) {
     int count = 0;

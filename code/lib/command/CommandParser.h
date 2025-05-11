@@ -21,12 +21,12 @@ public:
     static command_t * parse_command(const char * command_string);
 private:
     static command_t * parse_keyboard_keypress(const char * command_string_without_type);
-    //static command_t parse_keyboard_print(const std::string& command_string_without_type);
-    //static command_t parse_keyboard_println(const std::string& command_string_without_type);
+    static command_t * parse_keyboard_print(const char * command_string_without_type);
+    static command_t * parse_keyboard_println(const char * command_string_without_type);
     //static command_t parse_mouse_move(const std::string& command_string_without_type);
     //static command_t parse_mouse_move(const std::string& command_string_without_type);
     //static command_t parse_mouse_click(const std::string& command_string_without_type);
-    //static command_t parse_execute_script(const std::string& command_string_without_type);
+    static command_t * parse_execute_script(const char * command_string_without_type);
     static int count_tokens(const char * str, const char * delimiter);
     static char** split(const char * str, const char * delimiter);
     static int index_of(const char * str, char chr);

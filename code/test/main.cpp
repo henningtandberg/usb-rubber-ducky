@@ -20,6 +20,7 @@ int runUnityTests(void) {
     RUN_TEST(KeyboardKeypressCommand_ParseKeyboardKeypress_CommandTypeIsSetToKeyboardKeypress);
     RUN_TEST(KeyboardKeypressCommand_ParseKeyboardKeypress_CommandLenIsAmountOfKeyboardKeypress);
     RUN_TEST(KeyboardKeypressCommand_ParseKeyboardKeypress_CommandContainsAllKeyboardKeypress);
+
     RUN_TEST(KeyboardKeypressCommandWithAllModifiers_ParseKeyboardKeypress_CommandContainsAllModifiers);
     RUN_TEST(KeyboardKeypressCommandWithAllSpecials_ParseKeyboardKeypress_CommandContainsAllSpecials);
     RUN_TEST(KeyboardKeypressCommandWithAllNavigation_ParseKeyboardKeypress_CommandContainsAllNavigation);
@@ -29,6 +30,18 @@ int runUnityTests(void) {
     RUN_TEST(KeyboardKeypressCommandWithAllNumbers_ParseKeyboardKeypress_CommandContainsAllNumbers);
     RUN_TEST(KeyboardKeypressCommandWithAllCapitalLetters_ParseKeyboardKeypress_CommandContainsAllCapitalLetters);
     RUN_TEST(KeyboardKeypressCommandWithAllLetters_ParseKeyboardKeypress_CommandContainsAllLetters);
+
+    RUN_TEST(KeyboardPrintCommand_ParseCommand_CommandTypeIsSetToKeyboardPrint);
+    RUN_TEST(KeyboardPrintCommand_ParseCommand_CommandLenIsLengthOfStringToPrint);
+    RUN_TEST(KeyboardPrintCommand_ParseCommand_CommandContainsCorrectStringToPrint);
+
+    RUN_TEST(KeyboardPrintlnCommand_ParseCommand_CommandTypeIsSetToKeyboardPrintln);
+    RUN_TEST(KeyboardPrintlnCommand_ParseCommand_CommandLenIsLengthOfStringToPrint);
+    RUN_TEST(KeyboardPrintlnCommand_ParseCommand_CommandContainsCorrectStringToPrint);
+
+    RUN_TEST(ExecuteScriptCommand_ParseCommand_CommandTypeIsSetToExecuteScript);
+    RUN_TEST(ExecuteScriptCommand_ParseCommand_CommandLenIsLengthOfScriptPath);
+    RUN_TEST(ExecuteScriptCommand_ParseCommand_CommandContainsCorrectScriptToExecute);
 
     RUN_TEST(duckyp_create_packet_PacketContainsProvidedCommand);
     RUN_TEST(duckyp_create_packet_HeaderIndicatesCommandPacket);

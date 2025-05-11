@@ -5,9 +5,14 @@
 #include "unity.h"
 
 #include <cstdint>
+#include <cstring>
 #include <command.h>
 #include <CommandParser.h>
 #include "CommandParserTests.h"
+
+/**
+ * Command KP Tests
+ */
 
 #define KEYBOARD_KEYPRESS_COMMAND_COMBINATION "KP LEFT_CTRL+LEFT_SHIFT+n"
 
@@ -229,5 +234,85 @@ void KeyboardKeypressCommandWithAllLetters_ParseKeyboardKeypress_CommandContains
     TEST_ASSERT_EQUAL(0x78, (uint8_t)command->payload[23]);
     TEST_ASSERT_EQUAL(0x79, (uint8_t)command->payload[24]);
     TEST_ASSERT_EQUAL(0x7A, (uint8_t)command->payload[25]);
+    free(command);
+}
+
+/**
+ * Command P Tests
+ */
+
+#define KEYBOARD_PRINT_COMMAND "P echo \"hello world!\" > message.txt"
+void KeyboardPrintCommand_ParseCommand_CommandTypeIsSetToKeyboardPrint(void) {
+    command_t *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
+
+    TEST_ASSERT_EQUAL(COMMAND_TYPE_KEYBOARD_PRINT, command->type);
+    free(command);
+}
+
+void KeyboardPrintCommand_ParseCommand_CommandLenIsLengthOfStringToPrint(void) {
+    command_t *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
+
+    TEST_ASSERT_EQUAL(33, command->len);
+    free(command);
+}
+
+void KeyboardPrintCommand_ParseCommand_CommandContainsCorrectStringToPrint(void) {
+    command_t *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
+
+    TEST_ASSERT_EQUAL(0, strcmp("echo \"hello world!\" > message.txt", command->payload));
+    free(command);
+}
+
+/**
+ * Command PLN Tests
+ */
+
+#define KEYBOARD_PRINTLN_COMMAND "PLN echo \"hello world!\" > message.txt"
+void KeyboardPrintlnCommand_ParseCommand_CommandTypeIsSetToKeyboardPrintln(void) {
+    command_t *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
+
+    TEST_ASSERT_EQUAL(COMMAND_TYPE_KEYBOARD_PRINTLN, command->type);
+    free(command);
+}
+
+void KeyboardPrintlnCommand_ParseCommand_CommandLenIsLengthOfStringToPrint(void) {
+    command_t *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
+
+    TEST_ASSERT_EQUAL(33, command->len);
+    free(command);
+}
+
+void KeyboardPrintlnCommand_ParseCommand_CommandContainsCorrectStringToPrint(void) {
+    command_t *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
+
+    TEST_ASSERT_EQUAL(0, strcmp("echo \"hello world!\" > message.txt", command->payload));
+    free(command);
+}
+
+// MM and MC here
+
+/**
+ * Command PLN Tests
+ */
+
+#define EXECUTE_SCRIPT_COMMAND "EXEC ./script.rd"
+void ExecuteScriptCommand_ParseCommand_CommandTypeIsSetToExecuteScript(void) {
+    command_t *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+
+    TEST_ASSERT_EQUAL(COMMAND_TYPE_EXECUTE_SCRIPT, command->type);
+    free(command);
+}
+
+void ExecuteScriptCommand_ParseCommand_CommandLenIsLengthOfScriptPath(void) {
+    command_t *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+
+    TEST_ASSERT_EQUAL(11, command->len);
+    free(command);
+}
+
+void ExecuteScriptCommand_ParseCommand_CommandContainsCorrectScriptToExecute(void) {
+    command_t *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+
+    TEST_ASSERT_EQUAL(0, strcmp("./script.rd", command->payload));
     free(command);
 }
