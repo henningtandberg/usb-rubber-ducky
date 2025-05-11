@@ -10,23 +10,26 @@
 // https://stackoverflow.com/questions/114085/fast-string-hashing-algorithm-with-low-collision-rates-with-32-bit-integer
 // https://medium.com/@ryan_forrester_/using-switch-statements-with-strings-in-c-a-complete-guide-efa12f64a59d
 
-#include <string_view>
-#include <iostream>
+#include <string.h>
+#include <stdint.h>
 
-constexpr uint64_t hash(std::string_view str) {
+constexpr uint64_t hash(const char * str, size_t str_len) {
     uint64_t hash = 0;
-    for (char c : str) {
+
+    for (size_t i = 0; i < str_len; i++) {
+        char c = str[i];
         hash = (hash * 131) + c;
     }
+
     return hash;
 }
 
 constexpr uint64_t operator"" _hash(const char* str, size_t len) {
-    return hash(std::string_view(str, len));
+    return hash(str, len);
 }
 
-std::uint8_t lookup_keypress(std::string_view action) {
-    switch (hash(action)) {
+uint8_t lookup_keypress(const char * str) {
+    switch (hash(str, strlen(str))) {
         // Modifiers
         case "LEFT_CTRL"_hash:      return 0x80;
         case "LEFT_SHIFT"_hash:     return 0x81;
