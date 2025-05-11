@@ -30,7 +30,7 @@ command_t * CommandParser::parse_command(const char * command_string) {
     } else if (command_type.compare("MC")) {
         return CommandParser::parse_mouse_click(command_string_without_type);
     } */ else if (strcmp(command_type, "EXEC") == 0) {
-        return CommandParser::parse_execute_script(command_string_without_type);
+        command = CommandParser::parse_execute_script(command_string_without_type);
     } else {
         command = (command_t *)malloc(sizeof(command_t));
         command->type = COMMAND_TYPE_UNKNOWN;
