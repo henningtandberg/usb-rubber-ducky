@@ -11,13 +11,13 @@
 duckyp_packet * duckyp_create_packet(uint8_t type, uint8_t len, const char *payload)
 {
     duckyp_packet *packet;
-
     size_t packet_size = sizeof(duckyp_header) + len;
-    packet = (duckyp_packet *)malloc(packet_size);
 
+    packet = (duckyp_packet *)malloc(packet_size);
     packet->header.type = type;
     packet->header.len = len;
-    memcpy(packet->payload, payload, sizeof(char) * len);
+
+    memcpy(packet->payload, payload, len);
 
     return packet;
 }

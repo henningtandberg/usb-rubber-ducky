@@ -25,7 +25,6 @@ typedef struct duckyp_packet {
     char payload[];
 } __attribute__((packed)) duckyp_packet;
 
-//int duckyp_create_packet(struct duckyp_packet **packet, uint8_t type, uint8_t len, const char *payload);
 duckyp_packet * duckyp_create_packet(uint8_t type, uint8_t len, const char *payload);
 
 #endif //USB_RUBBER_DUCKY_DUCKYP_H
