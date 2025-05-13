@@ -28,8 +28,8 @@ constexpr uint64_t operator"" _hash(const char* str, size_t len) {
     return hash(str, len);
 }
 
-uint8_t lookup_keypress(const char * str) {
-    switch (hash(str, strlen(str))) {
+uint8_t lookup_keypress(const char * str, size_t len) {
+    switch (hash(str, len)) {
         // Modifiers
         case "LEFT_CTRL"_hash:      return 0x80;
         case "LEFT_SHIFT"_hash:     return 0x81;

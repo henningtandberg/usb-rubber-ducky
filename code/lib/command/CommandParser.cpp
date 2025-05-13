@@ -43,20 +43,23 @@ command_t * CommandParser::parse_command(const char * command_string) {
 
 command_t * CommandParser::parse_keyboard_keypress(const char * command_string_without_type) {
     int token_count = CommandParser::count_tokens(command_string_without_type, "+");
-    char ** keys_to_press = CommandParser::split(command_string_without_type, "+");
-
     command_t *command = (command_t *)malloc(sizeof(command_t) + token_count);
+    int str_len = strlen(command_string_without_type);
+    char * str_copy = (char *) malloc(sizeof(char) * str_len + 1);
+
+    memcpy(str_copy, command_string_without_type, str_len);
+    str_copy[str_len] = '\0';
 
     command->type = COMMAND_TYPE_KEYBOARD_KEYPRESS;
     command->len = token_count;
 
-    for(int i = 0; i < token_count; i++) {
-        command->payload[i] = lookup_keypress(keys_to_press[i]);
+    char * token = strtok(str_copy, "+");
+    for (int i = 0; token != NULL && i < token_count; i++) {
+        command->payload[i] = lookup_keypress(token, strlen(token));
+        token = strtok(NULL, "+");
     }
 
-    // Should go through each element and free
-    free(*keys_to_press);
-    free(keys_to_press);
+    free(str_copy);
     return command;
 }
 
@@ -116,28 +119,6 @@ int CommandParser::count_tokens(const char * str, const char * delimiter) {
 
     free(str_copy);
     return count;
-}
-
-char ** CommandParser::split(const char * str, const char * delimiter) {
-    int str_len = strlen(str);
-    int token_count = count_tokens(str, delimiter);
-
-    char * str_copy = (char *) malloc(sizeof(char) * (str_len + 1));
-    memcpy(str_copy, str, str_len);
-    str_copy[str_len] = '\0';
-
-    char **tokens = (char **)malloc(sizeof(char *) * token_count);
-
-    char * token = strtok(str_copy, delimiter);
-    for (int i = 0; i < token_count && token != NULL; i++) {
-        int token_len = strlen(token);
-        tokens[i] = (char *)malloc(sizeof(char) * token_len);
-        memcpy(tokens[i], token, token_len);
-        token = strtok(NULL, delimiter);
-    }
-
-    free(str_copy);
-    return tokens;
 }
 
 int CommandParser::index_of(const char *str, char chr) {
