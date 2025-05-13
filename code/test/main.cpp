@@ -2,6 +2,8 @@
 // Created by Henning Tandberg on 10/05/2025.
 //
 
+#include <stdio.h>
+#include <stdint.h>
 #include "unity.h"
 #include "DuckypCreatePacketTests.h"
 #include "CommandParserTests.h"

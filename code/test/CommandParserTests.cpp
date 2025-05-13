@@ -4,8 +4,9 @@
 
 #include "unity.h"
 
-#include <cstdint>
-#include <cstring>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 #include <command.h>
 #include <CommandParser.h>
 #include "CommandParserTests.h"
