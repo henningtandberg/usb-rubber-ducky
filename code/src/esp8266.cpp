@@ -4,6 +4,9 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPUpdateServer.h>
+#include <duckyp.h>
+#include <CommandParser.h>
+#include <string>
 
 #ifndef APSSID
 #define APSSID "ESPap"
@@ -17,22 +20,52 @@ const char *password = APPSK;
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
+/*
+ * TODO:
+ * Set up current routs:
+ * /
+ *  - Display choises of:
+ *      - Select pre built script
+ *      - Creating custom script
+ *      - Updating firmware and SPIFFS
+ *      - Updating settings
+ * /script/select
+ *  - Display a page with all pre made scripts
+ * /script/deploy?name=<SCRIPT_NAME>
+ *  - Deploy given script
+ * /script/custom
+ *  - Allow user to write custom script and the deploy
+ * /settings
+ *  - Edit settings
+ */
 
 void handleRoot() {
-    httpServer.send(200, "text/plain", "Hello world!");   // Send HTTP status 200 (Ok) and send some text to the browser/client
+    command_t *command = CommandParser::parse_command("KP LEFT_GUI+t");
+    duckyp_packet *packet = duckyp_create_packet(DUCKYP_TYPE_COMMAND, sizeof(command_t) + command->len, (char *)command);
+    Serial.write((char *)packet, sizeof(duckyp_header) + packet->header.len);
+    Serial.write('\r');
+    //Serial.flush();
+
+    String str =
+            "Packet type " + (String)(packet->header.type) + " Packet len: " + (String)(packet->header.len) + "\n" +
+            "Command type: " + (String)(command->type) + " Command len: " + (String)(command->len) + "\n";
+
+    for (int i = 0; i < command->len; i++) {
+        str += "\tCommand payload[" + (String)i + "]: " + String(command->payload[i], HEX) + "\n";
+    }
+
+    httpServer.send(200, "text/plain", str);   // Send HTTP status 200 (Ok) and send some text to the browser/client
+
+    free(command);
+    free(packet);
 }
 
 void setup(void) {
     delay(1000);
 
     Serial.begin(115200);
-    Serial.println();
-    Serial.println("Booting Sketch...");
 
     WiFi.softAP(ssid, password);
-    IPAddress myIP = WiFi.softAPIP();
-    Serial.print("AP IP address: ");
-    Serial.println(myIP);
 
     MDNS.begin(host);
 
@@ -41,7 +74,6 @@ void setup(void) {
     httpServer.begin();
 
     MDNS.addService("http", "tcp", 80);
-    Serial.printf("HTTPUpdateServer ready! Open http://%s.local/update in your browser\n", host);
 }
 
 void loop(void) {
