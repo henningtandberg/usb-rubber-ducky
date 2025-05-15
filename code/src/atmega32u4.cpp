@@ -1,19 +1,29 @@
+// STL
+#include <string.h>
+
+// Arduino
 #include <Arduino.h>
 #include <Keyboard.h>
 #include <SPI.h>
-#include <string.h>
+
+// Custom
 #include <CommandParser.h>
-#include <duckyp.h>
+#include <DuckyPacket.h>
+#include <DuckySerial.h>
 
-#define EspSerial Serial1
+DuckySerial duckySerial = DuckySerial::create(Serial1);
 
-void setup() {
+void inline esp_power_on() {
     pinMode(13, OUTPUT);
     digitalWrite(13, HIGH);
+}
+
+void setup() {
+    esp_power_on();
 
     Keyboard.begin();
     Serial.begin(115200);
-    EspSerial.begin(115200);
+    duckySerial.begin(115200);
 }
 
 /*
@@ -40,36 +50,26 @@ void handle_command(command_t * command) {
     Keyboard.releaseAll();
 }
 
-char buffer[256];
-int i = 0;
+char buffer[DUCKY_PACKET_MAX_SIZE];
 
 void loop() {
-    if (EspSerial.available() <= 0) {
+    if (duckySerial.available() <= 0) {
         return;
     }
 
-    while(EspSerial.available()) {
-        if (i == 255) {
-            Serial.println("GIBBERISH!");
-            return;
-        }
+    size_t bytes_read = duckySerial.recv(buffer, DUCKY_PACKET_MAX_SIZE);
 
-        char rcvChar = EspSerial.read();
-
-        // Check for end symbol
-        if (rcvChar == '\r') {
-            break;  // Break the loop upon end symbol
-        }
-
-        buffer[i++] = rcvChar;
-        Serial.print("Recv byte: ");
-        Serial.println(buffer[i - 1], HEX);
+    if (bytes_read == 0) {
+        memset(buffer, 0, DUCKY_PACKET_MAX_SIZE);
+        return;
     }
 
-    duckyp_packet *packet = (duckyp_packet *)malloc(i);
-    memcpy(packet, buffer, i);
-    memset(buffer, 0, 255);
-    i = 0;
+    Serial.print("Bytes read: ");
+    Serial.println(bytes_read);
+
+    DuckyPacket *packet = (DuckyPacket *)buffer;
+    //DuckyPacket *packet = (DuckyPacket *)malloc(bytes_read);
+    //memcpy(packet, buffer, bytes_read);
 
     Serial.println("Packet: ");
 
@@ -90,7 +90,8 @@ void loop() {
     }
 
     handle_command(command);
+    memset(buffer, 0, DUCKY_PACKET_MAX_SIZE);
 
-    free(packet);
+    //free(packet);
 }
 
