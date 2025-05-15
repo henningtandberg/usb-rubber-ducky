@@ -1,10 +1,12 @@
+// Arduino / ESP
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPUpdateServer.h>
-#include <duckyp.h>
+
+#include <DuckySerial.h>
 #include <CommandParser.h>
 #include <string>
 
@@ -19,6 +21,7 @@ const char *password = APPSK;
 
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
+DuckySerial duckySerial = DuckySerial::create(Serial);
 
 /*
  * TODO:
@@ -41,15 +44,11 @@ ESP8266HTTPUpdateServer httpUpdater;
 
 void handleRoot() {
     command_t *command = CommandParser::parse_command("KP LEFT_GUI+t");
-    duckyp_packet *packet = duckyp_create_packet(DUCKYP_TYPE_COMMAND, sizeof(command_t) + command->len, (char *)command);
-    Serial.write((char *)packet, sizeof(duckyp_header) + packet->header.len);
-    Serial.write('\r');
-    //Serial.flush();
+    size_t sent_bytes = duckySerial.sendCommand((char *)command, sizeof(command_t) + command->len);
 
     String str =
-            "Packet type " + (String)(packet->header.type) + " Packet len: " + (String)(packet->header.len) + "\n" +
-            "Command type: " + (String)(command->type) + " Command len: " + (String)(command->len) + "\n";
-
+            "Bytes sent: " + (String)(sent_bytes) + "\n" +
+            "Command type: " + (String)(command->type) + "\nCommand len: " + (String)(command->len) + "\n";
     for (int i = 0; i < command->len; i++) {
         str += "\tCommand payload[" + (String)i + "]: " + String(command->payload[i], HEX) + "\n";
     }
@@ -57,13 +56,12 @@ void handleRoot() {
     httpServer.send(200, "text/plain", str);   // Send HTTP status 200 (Ok) and send some text to the browser/client
 
     free(command);
-    free(packet);
 }
 
 void setup(void) {
     delay(1000);
 
-    Serial.begin(115200);
+    duckySerial.begin(115200);
 
     WiFi.softAP(ssid, password);
 
