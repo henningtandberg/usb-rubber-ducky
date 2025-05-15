@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "unity.h"
-#include "DuckypCreatePacketTests.h"
+#include "DuckyPacketFactoryTests.h"
 #include "CommandParserTests.h"
 
 void setUp(void) {
@@ -45,9 +45,9 @@ int runUnityTests(void) {
     RUN_TEST(ExecuteScriptCommand_ParseCommand_CommandLenIsLengthOfScriptPath);
     RUN_TEST(ExecuteScriptCommand_ParseCommand_CommandContainsCorrectScriptToExecute);
 
-    RUN_TEST(duckyp_create_packet_PacketContainsProvidedCommand);
-    RUN_TEST(duckyp_create_packet_HeaderIndicatesCommandPacket);
-    RUN_TEST(duckyp_create_packet_HeaderHasCorrectCommandLen);
+    RUN_TEST(CommandPacket_Create_PacketContainsProvidedCommand);
+    RUN_TEST(CommandPacket_Create_HeaderIndicatesCommandPacket);
+    RUN_TEST(CommandPacket_Create_HeaderHasCorrectCommandLen);
 
     return UNITY_END();
 }

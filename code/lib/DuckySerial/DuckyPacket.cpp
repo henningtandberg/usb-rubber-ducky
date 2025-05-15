@@ -6,14 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "duckyp.h"
+#include "DuckyPacket.h"
 
-duckyp_packet * duckyp_create_packet(uint8_t type, uint8_t len, const char *payload)
+DuckyPacket * DuckyPacketFactory::create(uint8_t type, uint8_t len, const char * payload)
 {
-    duckyp_packet *packet;
-    size_t packet_size = sizeof(duckyp_header) + len;
+    DuckyPacket * packet;
+    size_t packet_size = DUCKY_HEADER_SIZE + len;
 
-    packet = (duckyp_packet *)malloc(packet_size);
+    packet = (DuckyPacket *)malloc(packet_size);
     packet->header.type = type;
     packet->header.len = len;
 
