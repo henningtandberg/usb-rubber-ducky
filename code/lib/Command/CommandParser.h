@@ -5,7 +5,7 @@
 #ifndef USB_RUBBER_DUCKY_COMMANDPARSER_H
 #define USB_RUBBER_DUCKY_COMMANDPARSER_H
 
-#include <command.h>
+#include <Command.h>
 
 /* - Read packet and parse commands
 *      - Keypress          e.g. "KP ENTER" or "KP LEFT_CTRL+LEFT_SHIFT+d"
@@ -18,15 +18,15 @@
 
 class CommandParser {
 public:
-    static command_t * parse_command(const char * command_string);
+    static Command * parse_command(const char * command_string);
 private:
-    static command_t * parse_keyboard_keypress(const char * command_string_without_type);
-    static command_t * parse_keyboard_print(const char * command_string_without_type);
-    static command_t * parse_keyboard_println(const char * command_string_without_type);
-    //static command_t parse_mouse_move(const std::string& command_string_without_type);
-    //static command_t parse_mouse_move(const std::string& command_string_without_type);
-    //static command_t parse_mouse_click(const std::string& command_string_without_type);
-    static command_t * parse_execute_script(const char * command_string_without_type);
+    static Command * parse_keyboard_keypress(const char * command_string_without_type);
+    static Command * parse_keyboard_print(const char * command_string_without_type);
+    static Command * parse_keyboard_println(const char * command_string_without_type);
+    //static Command parse_mouse_move(const std::string& command_string_without_type);
+    //static Command parse_mouse_move(const std::string& command_string_without_type);
+    //static Command parse_mouse_click(const std::string& command_string_without_type);
+    static Command * parse_execute_script(const char * command_string_without_type);
     static int count_tokens(const char * str, const char * delimiter);
     static int index_of(const char * str, char chr);
 };

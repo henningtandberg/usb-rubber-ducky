@@ -15,10 +15,10 @@
 #define COMMAND_TYPE_MOUSE_CLICK        0x05
 #define COMMAND_TYPE_EXECUTE_SCRIPT     0x06
 
-typedef struct command_t {
+typedef struct Command {
     uint8_t type;
     uint8_t len;
     char payload[];
-} __attribute__((packed)) command_t;
+} __attribute__((packed)) Command;
 
 #endif //USB_RUBBER_DUCKY_COMMAND_H

@@ -37,7 +37,7 @@ void setup() {
  *      - Execute Script    e.g. "EXEC win/deploy_keylogger.ducky"
  */
 
-void handle_command(command_t * command) {
+void handle_command(Command * command) {
     if (command->type != COMMAND_TYPE_KEYBOARD_KEYPRESS) {
         return;
     }
@@ -78,7 +78,7 @@ void loop() {
     Serial.print("Header len: ");
     Serial.println(packet->header.len, DEC);
 
-    command_t *command = (command_t *)packet->payload;
+    Command *command = (Command *)packet->payload;
     Serial.print("Command type: ");
     Serial.println(command->type, DEC);
     Serial.print("Command len: ");

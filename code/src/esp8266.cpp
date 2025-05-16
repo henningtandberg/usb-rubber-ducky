@@ -43,8 +43,8 @@ DuckySerial duckySerial = DuckySerial::create(Serial);
  */
 
 void handleRoot() {
-    command_t *command = CommandParser::parse_command("KP LEFT_GUI+t");
-    size_t sent_bytes = duckySerial.sendCommand((char *)command, sizeof(command_t) + command->len);
+    Command *command = CommandParser::parse_command("KP LEFT_GUI+t");
+    size_t sent_bytes = duckySerial.sendCommand((char *)command, sizeof(Command) + command->len);
 
     String str =
             "Bytes sent: " + (String)(sent_bytes) + "\n" +

@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <command.h>
+#include <Command.h>
 #include <CommandParser.h>
 #include "CommandParserTests.h"
 
@@ -18,21 +18,21 @@
 #define KEYBOARD_KEYPRESS_COMMAND_COMBINATION "KP LEFT_CTRL+LEFT_SHIFT+n"
 
 void KeyboardKeypressCommand_ParseKeyboardKeypress_CommandTypeIsSetToKeyboardKeypress(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_KEYPRESS_COMMAND_COMBINATION);
+    Command *command = CommandParser::parse_command(KEYBOARD_KEYPRESS_COMMAND_COMBINATION);
 
     TEST_ASSERT_EQUAL(COMMAND_TYPE_KEYBOARD_KEYPRESS, command->type);
     free(command);
 }
 
 void KeyboardKeypressCommand_ParseKeyboardKeypress_CommandLenIsAmountOfKeyboardKeypress(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_KEYPRESS_COMMAND_COMBINATION);
+    Command *command = CommandParser::parse_command(KEYBOARD_KEYPRESS_COMMAND_COMBINATION);
 
     TEST_ASSERT_EQUAL(3, command->len);
     free(command);
 }
 
 void KeyboardKeypressCommand_ParseKeyboardKeypress_CommandContainsAllKeyboardKeypress(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_KEYPRESS_COMMAND_COMBINATION);
+    Command *command = CommandParser::parse_command(KEYBOARD_KEYPRESS_COMMAND_COMBINATION);
 
     TEST_ASSERT_EQUAL(0x80 /*LEFT_CTRL*/, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0x81 /*LEFT_SHIFT*/, (uint8_t)command->payload[1]);
@@ -47,7 +47,7 @@ void KeyboardKeypressCommand_ParseKeyboardKeypress_CommandContainsAllKeyboardKey
 
 #define KEYPRESS_COMMAND_MODIFIERS "KP LEFT_CTRL+LEFT_SHIFT+LEFT_ALT+LEFT_GUI+RIGHT_CTRL+RIGHT_SHIFT+RIGHT_ALT+RIGHT_GUI"
 void KeyboardKeypressCommandWithAllModifiers_ParseKeyboardKeypress_CommandContainsAllModifiers(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_MODIFIERS);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_MODIFIERS);
 
     TEST_ASSERT_EQUAL(0x80, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0x81, (uint8_t)command->payload[1]);
@@ -62,7 +62,7 @@ void KeyboardKeypressCommandWithAllModifiers_ParseKeyboardKeypress_CommandContai
 
 #define KEYPRESS_COMMAND_SPECIALS "KP BACKSPACE+TAB+RETURN+MENU+CAPS_LOCK"
 void KeyboardKeypressCommandWithAllSpecials_ParseKeyboardKeypress_CommandContainsAllSpecials(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_SPECIALS);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_SPECIALS);
 
     TEST_ASSERT_EQUAL(0xB2, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0xB3, (uint8_t)command->payload[1]);
@@ -74,7 +74,7 @@ void KeyboardKeypressCommandWithAllSpecials_ParseKeyboardKeypress_CommandContain
 
 #define KEYPRESS_COMMAND_NAVIGATION "KP UP_ARROW+DOWN_ARROW+LEFT_ARROW+RIGHT_ARROW+ESC+INSERT+DELETE+PAGE_UP+PAGE_DOWN+HOME+END"
 void KeyboardKeypressCommandWithAllNavigation_ParseKeyboardKeypress_CommandContainsAllNavigation(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_NAVIGATION);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_NAVIGATION);
 
     TEST_ASSERT_EQUAL(0xDA, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0xD9, (uint8_t)command->payload[1]);
@@ -92,7 +92,7 @@ void KeyboardKeypressCommandWithAllNavigation_ParseKeyboardKeypress_CommandConta
 
 #define KEYPRESS_COMMAND_NUMERIC "KP NUM_LOCK+KP_SLASH+KP_ASTERISK+KP_MINUS+KP_PLUS+KP_ENTER+KP_1+KP_2+KP_3+KP_4+KP_5+KP_6+KP_7+KP_8+KP_9+KP_0+KP_DOT"
 void KeyboardKeypressCommandWithAllNumeric_ParseKeyboardKeypress_CommandContainsAllNumeric(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_NUMERIC);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_NUMERIC);
 
     TEST_ASSERT_EQUAL(0xDB, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0xDC, (uint8_t)command->payload[1]);
@@ -116,7 +116,7 @@ void KeyboardKeypressCommandWithAllNumeric_ParseKeyboardKeypress_CommandContains
 
 #define KEYPRESS_COMMAND_FUNCTION_AND_ESCAPE "KP F1+F2+F3+F4+F5+F6+F7+F8+F9+F10+F11+F12+F13+F14+F15+F16+F17+F18+F19+F20+F21+F22+F23+F24"
 void KeyboardKeypressCommandWithAllFunctionAndEscape_ParseKeyboardKeypress_CommandContainsAllFunctionAndEscape(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_FUNCTION_AND_ESCAPE);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_FUNCTION_AND_ESCAPE);
 
     TEST_ASSERT_EQUAL(0xC2, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0xC3, (uint8_t)command->payload[1]);
@@ -147,7 +147,7 @@ void KeyboardKeypressCommandWithAllFunctionAndEscape_ParseKeyboardKeypress_Comma
 
 #define KEYPRESS_COMMAND_FUNCTION_CONTROL "KP PRINT_SCREEN+SCROLL_LOCK+PAUSE"
 void KeyboardKeypressCommandWithAllFunctionControl_ParseKeyboardKeypress_CommandContainsAllFunctionControl(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_FUNCTION_CONTROL);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_FUNCTION_CONTROL);
 
     TEST_ASSERT_EQUAL(0xCE, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0xCF, (uint8_t)command->payload[1]);
@@ -157,7 +157,7 @@ void KeyboardKeypressCommandWithAllFunctionControl_ParseKeyboardKeypress_Command
 
 #define KEYPRESS_COMMAND_NUMBERS "KP 0+1+2+3+4+5+6+7+8+9"
 void KeyboardKeypressCommandWithAllNumbers_ParseKeyboardKeypress_CommandContainsAllNumbers(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_NUMBERS);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_NUMBERS);
 
     TEST_ASSERT_EQUAL(0x30, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0x31, (uint8_t)command->payload[1]);
@@ -174,7 +174,7 @@ void KeyboardKeypressCommandWithAllNumbers_ParseKeyboardKeypress_CommandContains
 
 #define KEYPRESS_COMMAND_CAPITAL_LETTERS "KP A+B+C+D+E+F+G+H+I+J+K+L+M+N+O+P+Q+R+S+T+U+V+W+X+Y+Z"
 void KeyboardKeypressCommandWithAllCapitalLetters_ParseKeyboardKeypress_CommandContainsAllCapitalLetters(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_CAPITAL_LETTERS);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_CAPITAL_LETTERS);
 
     TEST_ASSERT_EQUAL(0x41, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0x42, (uint8_t)command->payload[1]);
@@ -207,7 +207,7 @@ void KeyboardKeypressCommandWithAllCapitalLetters_ParseKeyboardKeypress_CommandC
 
 #define KEYPRESS_COMMAND_LETTERS "KP a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u+v+w+x+y+z"
 void KeyboardKeypressCommandWithAllLetters_ParseKeyboardKeypress_CommandContainsAllLetters(void) {
-    command_t *command = CommandParser::parse_command(KEYPRESS_COMMAND_LETTERS);
+    Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_LETTERS);
 
     TEST_ASSERT_EQUAL(0x61, (uint8_t)command->payload[0]);
     TEST_ASSERT_EQUAL(0x62, (uint8_t)command->payload[1]);
@@ -244,21 +244,21 @@ void KeyboardKeypressCommandWithAllLetters_ParseKeyboardKeypress_CommandContains
 
 #define KEYBOARD_PRINT_COMMAND "P echo \"hello world!\" > message.txt"
 void KeyboardPrintCommand_ParseCommand_CommandTypeIsSetToKeyboardPrint(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
+    Command *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
 
     TEST_ASSERT_EQUAL(COMMAND_TYPE_KEYBOARD_PRINT, command->type);
     free(command);
 }
 
 void KeyboardPrintCommand_ParseCommand_CommandLenIsLengthOfStringToPrint(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
+    Command *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
 
     TEST_ASSERT_EQUAL(33, command->len);
     free(command);
 }
 
 void KeyboardPrintCommand_ParseCommand_CommandContainsCorrectStringToPrint(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
+    Command *command = CommandParser::parse_command(KEYBOARD_PRINT_COMMAND);
 
     TEST_ASSERT_EQUAL(0, strcmp("echo \"hello world!\" > message.txt", command->payload));
     free(command);
@@ -270,21 +270,21 @@ void KeyboardPrintCommand_ParseCommand_CommandContainsCorrectStringToPrint(void)
 
 #define KEYBOARD_PRINTLN_COMMAND "PLN echo \"hello world!\" > message.txt"
 void KeyboardPrintlnCommand_ParseCommand_CommandTypeIsSetToKeyboardPrintln(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
+    Command *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
 
     TEST_ASSERT_EQUAL(COMMAND_TYPE_KEYBOARD_PRINTLN, command->type);
     free(command);
 }
 
 void KeyboardPrintlnCommand_ParseCommand_CommandLenIsLengthOfStringToPrint(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
+    Command *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
 
     TEST_ASSERT_EQUAL(33, command->len);
     free(command);
 }
 
 void KeyboardPrintlnCommand_ParseCommand_CommandContainsCorrectStringToPrint(void) {
-    command_t *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
+    Command *command = CommandParser::parse_command(KEYBOARD_PRINTLN_COMMAND);
 
     TEST_ASSERT_EQUAL(0, strcmp("echo \"hello world!\" > message.txt", command->payload));
     free(command);
@@ -298,21 +298,21 @@ void KeyboardPrintlnCommand_ParseCommand_CommandContainsCorrectStringToPrint(voi
 
 #define EXECUTE_SCRIPT_COMMAND "EXEC ./script.rd"
 void ExecuteScriptCommand_ParseCommand_CommandTypeIsSetToExecuteScript(void) {
-    command_t *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+    Command *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
 
     TEST_ASSERT_EQUAL(COMMAND_TYPE_EXECUTE_SCRIPT, command->type);
     free(command);
 }
 
 void ExecuteScriptCommand_ParseCommand_CommandLenIsLengthOfScriptPath(void) {
-    command_t *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+    Command *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
 
     TEST_ASSERT_EQUAL(11, command->len);
     free(command);
 }
 
 void ExecuteScriptCommand_ParseCommand_CommandContainsCorrectScriptToExecute(void) {
-    command_t *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+    Command *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
 
     TEST_ASSERT_EQUAL(0, strcmp("./script.rd", command->payload));
     free(command);
