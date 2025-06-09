@@ -2,10 +2,11 @@
 // Created by Henning Tandberg on 31/05/2025.
 //
 
-#ifndef USB_RUBBER_DUCKY_PAGES_H
-#define USB_RUBBER_DUCKY_PAGES_H
+#ifndef USB_RUBBER_DUCKY_STATICCONTENT_H
+#define USB_RUBBER_DUCKY_STATICCONTENT_H
 
 #if defined(ARDUINO)
+#include <LittleFS.h>
 #include <ESP8266WebServer.h>
 #else
 #include <FakeWebServer.h>
@@ -13,41 +14,8 @@
 #endif
 
 class StaticContent {
-private:
-    ESP8266WebServer & _httpServer;
-    Pages(ESP8266WebServer & httpServer) : _httpServer(httpServer) { }
-    void indexPageGet();
-
 public:
-    static Pages create(ESP8266WebServer & httpServer);
-    void mapEndpoints();
-/**
- *  - Display choices of:
- *      - Select pre built script
- *      - Creating custom script
- *      - Updating firmware and SPIFFS
- *      - Updating settings
- */
-
-/**
- * GET  /script/select
- *  - Display a page with all pre made scripts
- * POST /script/select
- *  - Deploy given script
- */
-
-/**
- * GET  /script/custom
- *  - Allow user to write custom script and the deploy
- * POST /script/custom
- *  - Handle input from form
- */
-
-/**
- * GET  /settings
- *  - Edit settings
- * POST /settings
- */
+    static void setup(fs::FS & fs, ESP8266WebServer & httpServer);
 };
 
-#endif //USB_RUBBER_DUCKY_PAGES_H
+#endif //USB_RUBBER_DUCKY_STATICCONTENT_H
