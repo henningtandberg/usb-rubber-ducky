@@ -14,3 +14,4 @@ Experimenting with USB Rubber Ducky
 - https://docs.platformio.org/en/latest/integration/ide/clion.html#installation
 - https://github.com/TheMMcOfficial/CJMCU-3212-wifi_ducky
 - https://github.com/robertio/DM-3212-Badusb/blob/master/README.md
+- http://getskeleton.com/
