@@ -15,3 +15,4 @@ Experimenting with USB Rubber Ducky
 - https://github.com/TheMMcOfficial/CJMCU-3212-wifi_ducky
 - https://github.com/robertio/DM-3212-Badusb/blob/master/README.md
 - http://getskeleton.com/
+- https://github.com/Jason2866/LittleFS
