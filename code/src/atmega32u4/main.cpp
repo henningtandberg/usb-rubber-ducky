@@ -37,7 +37,7 @@ void setup() {
  *      - Execute Script    e.g. "EXEC win/deploy_keylogger.ducky"
  */
 
-void handle_command(Command * command) {
+void handle_keypress_command(Command * command) {
     if (command->type != COMMAND_TYPE_KEYBOARD_KEYPRESS) {
         return;
     }
@@ -68,8 +68,6 @@ void loop() {
     Serial.println(bytes_read);
 
     DuckyPacket *packet = (DuckyPacket *)buffer;
-    //DuckyPacket *packet = (DuckyPacket *)malloc(bytes_read);
-    //memcpy(packet, buffer, bytes_read);
 
     Serial.println("Packet: ");
 
@@ -89,9 +87,7 @@ void loop() {
         Serial.println(command->payload[j], HEX);
     }
 
-    handle_command(command);
+    //handle_keypress_command(command);
     memset(buffer, 0, DUCKY_PACKET_MAX_SIZE);
-
-    //free(packet);
 }
 

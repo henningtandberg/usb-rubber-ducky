@@ -12,7 +12,7 @@
 #define FakeWebServer ESP8266WebServer
 #endif
 
-class Pages {
+class StaticContent {
 private:
     ESP8266WebServer & _httpServer;
     Pages(ESP8266WebServer & httpServer) : _httpServer(httpServer) { }
