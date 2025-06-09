@@ -1,0 +1,11 @@
+.navbar {
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}

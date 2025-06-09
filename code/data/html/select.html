@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/skeleton.css">
+    <title>Pre-Built Scripts</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/script/select">Pre-built Scripts</a>
+        <a href="/script/custom">Custom Script</a>
+        <a href="/settings">Settings</a>
+        <a href="/update">Firmware</a>
+      </div>
+
+      <br>
+
+      <section class="header">
+        <h1 class="title">Pre-Built Scripts</h1>
+      </section>
+
+      <div class="docs-section">
+        <p>Here you can run a pre-defined script to mess with someones computer :)</p>
+      </div>
+
+      <hr>
+
+      <div class="docs-section">
+        <h3 class="docs-header">Windows Scripts</h3>
+        <button id="win-script1" class="button-primary">Windows Script 1</button>
+        <button id="win-script2" class="button-primary">Windows Script 2</button>
+      </div>
+
+      <hr>
+
+      <div class="docs-section">
+        <h3 class="docs-header">Mac Scripts</h3>
+        <button id="mac-script1" class="button-primary">Mac Script 1</button>
+        <button id="mac-script2" class="button-primary">Mac Script 2</button>
+      </div>
+    </div>
+    <script>
+      // Here you can use JavaScript to handle button clicks and trigger scripts
+      document.getElementById('win-script1').addEventListener('click', function() {
+        // Trigger windows script 1
+      });
+      document.getElementById('win-script2').addEventListener('click', function() {
+        // Trigger windows script 2
+      });
+      document.getElementById('mac-script1').addEventListener('click', function() {
+        // Trigger mac script 1
+      });
+      document.getElementById('mac-script2').addEventListener('click', function() {
+        // Trigger mac script 2
+      });
+    </script>
+  </body>
+</html>

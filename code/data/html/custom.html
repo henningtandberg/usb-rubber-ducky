@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/skeleton.css">
+    <title>Create Custom Scripts</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/script/select">Pre-built Scripts</a>
+        <a href="/script/custom">Custom Script</a>
+        <a href="/settings">Settings</a>
+        <a href="/update">Firmware</a>
+      </div>
+
+      <br>
+
+      <section class="header">
+        <h1 class="title">Create Custom Scripts</h1>
+      </section>
+
+      <div class="docs-section">
+        <div class="description">
+          <table>
+            <thead>
+              <tr>
+                <th>Instruction</th>
+                <th>Action</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>KP</td>
+                <td>Performs a keypress or keypress combination on the host machine</td>
+                <td>"KP ENTER" or "KP LEFT_CTRL+LEFT_SHIFT+d"</td>
+              </tr>
+              <tr>
+                <td>P</td>
+                <td>Writes the given string on the host machine as if it was a keyboard</td>
+                <td>"P echo hello world"</td>
+              </tr>
+              <tr>
+                <td>PLN</td>
+                <td>Writes the given string on the host machine as if it was a keyboard + ENTER at the end</td>
+                <td>"PLN echo hello world"</td>
+              </tr>
+              <tr>
+                <td>MM</td>
+                <td>Moves the cursor X Y relative to current position</td>
+                <td>"MM 10,23"</td>
+              </tr>
+              <tr>
+                <td>MC</td>
+                <td>Performs a mouse click. Available clicks LEFT and RIGHT</td>
+                <td>"MC LEFT"</td>
+              </tr>
+              <tr>
+                <td>EXEC</td>
+                <td>Executes the specified script</td>
+                <td>"EXEC win/deploy_keylogger.ducky"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <hr>
+
+      <form action="/script/custom" method="POST">
+        <label for="customScript">Enter your script here</label>
+        <textarea name="customScript" id="customScript" spellcheck="false" style="width: 100%; height: 300px">
+KP LEFT_GUI+R
+P powershell
+KP LEFT_CTRL+LEFT_SHIFT+ENTER
+        </textarea>
+        <br>
+        <button type="submit">Run Custom Script</button>
+      </form>
+    </div>
+</body>
+</html>
