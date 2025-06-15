@@ -1,5 +1,8 @@
-# usb-rubber-ducky
-Experimenting with USB Rubber Ducky
+# USB Rubber Ducky
+
+<img width="50%" align="center" src="docs/assets/rubber-ducky.png" />
+
+## Useful References
 - https://www.youtube.com/watch?v=VQAzxBefLZo
 - https://github.com/TheMMcOfficial/CJMCU-3212-wifi_ducky/tree/master
 - https://medesign.seas.upenn.edu/index.php/Guides/MaEvArM-usb
