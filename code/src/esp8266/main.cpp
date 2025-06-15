@@ -46,6 +46,25 @@ void setup(void) {
     MDNS.addService("http", "tcp", 80);
 }
 
+char *ltrim(char *s)
+{
+    while(isspace(*s)) s++;
+    return s;
+}
+
+char *rtrim(char *s)
+{
+    char* back = s + strlen(s);
+    while(isspace(*--back));
+    *(back+1) = '\0';
+    return s;
+}
+
+char *trim(char *s)
+{
+    return rtrim(ltrim(s));
+}
+
 void handleCustomScript(void) {
     const char * textAreaName = "customScript";
 
@@ -54,18 +73,29 @@ void handleCustomScript(void) {
     }
 
     String customScript = httpServer.arg(textAreaName);
-    char * lines = (char *)malloc(customScript.length());
-    memcpy(lines, customScript.c_str(), customScript.length());
-    char * line = strtok(lines, "\r\n");
+    int lines_len = customScript.length() + 1;
+    char lines[lines_len];
+    customScript.toCharArray(lines, lines_len);
+    duckySerial.sendPrintln(lines, lines_len);
 
-    while(line != NULL) {
+    char *line;
+    char *rest = lines;
+    char *context;
+    int count = 0;
+
+    while ((line = strtok_r(rest, ";", &context)) != NULL) {
+        line = trim(line);
+        duckySerial.sendPrintln(line, strlen(line));
         Command * command = CommandParser::parse_command(line);
         duckySerial.sendCommand((char *)command, sizeof(Command) + command->len);
-        line = strtok(NULL, "\r\n");
         free(command);
+        rest = NULL; // Important for subsequent calls to strtok_r
+        count++;
+        //delay(200);
     }
 
-    free(lines);
+    //delay(1000);
+    httpServer.send(200, "text/html", "Lines: " + (String)count);
     // Add IFrame to show progress
 }
 

@@ -13,6 +13,8 @@
 #include <FakeHardwareSerial.h>
 #endif
 
+#define EOT 0x07 // ASCII End of Transmission
+
 class DuckySerial {
 private:
     HardwareSerial & _serial;
@@ -21,6 +23,7 @@ public:
     int available(void);
     void begin(unsigned long baud);
     size_t sendCommand(const char * buffer, size_t length);
+    size_t sendPrintln(const char * buffer, size_t length);
     size_t recv(char * buffer, size_t length);
 
     static DuckySerial create(HardwareSerial & serial);

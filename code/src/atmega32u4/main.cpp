@@ -50,6 +50,36 @@ void handle_keypress_command(Command * command) {
     Keyboard.releaseAll();
 }
 
+void handle_command(Command * command) {
+    Serial.print("Command type: ");
+    Serial.println(command->type, DEC);
+    Serial.print("Command len: ");
+    Serial.println(command->len, DEC);
+
+    for (int j = 0; j < command->len; j++) {
+        Serial.print("Byte: ");
+        Serial.println(command->payload[j], HEX);
+    }
+
+    switch (command->type) {
+        case COMMAND_TYPE_KEYBOARD_KEYPRESS:
+            break;
+        case COMMAND_TYPE_KEYBOARD_PRINT:
+            break;
+        case COMMAND_TYPE_KEYBOARD_PRINTLN:
+            break;
+        case COMMAND_TYPE_MOUSE_MOVE:
+            break;
+        case COMMAND_TYPE_MOUSE_CLICK:
+            break;
+        case COMMAND_TYPE_EXECUTE_SCRIPT:
+            break;
+        case COMMAND_TYPE_UNKNOWN:
+        default:
+            break;
+    }
+}
+
 char buffer[DUCKY_PACKET_MAX_SIZE];
 
 void loop() {
@@ -76,18 +106,20 @@ void loop() {
     Serial.print("Header len: ");
     Serial.println(packet->header.len, DEC);
 
-    Command *command = (Command *)packet->payload;
-    Serial.print("Command type: ");
-    Serial.println(command->type, DEC);
-    Serial.print("Command len: ");
-    Serial.println(command->len, DEC);
-
-    for (int j = 0; j < command->len; j++) {
-        Serial.print("Byte: ");
-        Serial.println(command->payload[j], HEX);
+    switch (packet->header.type) {
+        case DUCKY_PACKET_TYPE_COMMAND:
+            handle_command((Command *)packet->payload);
+            break;
+        case DUCKY_PACKET_TYPE_PRINTLN:
+            Serial.println("[ESP8266] " + (String)(packet->payload));
+            break;
+        default:
+            break;
     }
 
     //handle_keypress_command(command);
     memset(buffer, 0, DUCKY_PACKET_MAX_SIZE);
+    Serial.println("---");
+    //delay(200);
 }
 

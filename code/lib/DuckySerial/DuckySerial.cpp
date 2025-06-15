@@ -25,7 +25,20 @@ size_t DuckySerial::sendCommand(const char * buffer, size_t length) {
 
     size_t bytes_to_send = DUCKY_HEADER_SIZE + packet->header.len;
     _serial.write((char *)packet, bytes_to_send);
-    _serial.write('\r');
+    _serial.write(EOT);
+    _serial.flush();
+
+    free(packet);
+    return bytes_to_send;
+}
+
+size_t DuckySerial::sendPrintln(const char * buffer, size_t length) {
+    DuckyPacket *packet = DuckyPacketFactory::create(DUCKY_PACKET_TYPE_PRINTLN, length, buffer);
+
+    size_t bytes_to_send = DUCKY_HEADER_SIZE + packet->header.len;
+    _serial.write((char *)packet, bytes_to_send);
+    _serial.write(EOT);
+    _serial.flush();
 
     free(packet);
     return bytes_to_send;
@@ -36,7 +49,7 @@ size_t DuckySerial::recv(char * buffer, size_t length) {
         return 0;
     }
 
-    String str = _serial.readStringUntil('\r');
+    String str = _serial.readStringUntil(EOT);
     size_t bytes_received = str.length();
 
     if (bytes_received > length) {

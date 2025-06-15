@@ -14,6 +14,7 @@
 #define DUCKY_PACKET_PAYLOAD_MAX_SIZE   (DUCKY_PACKET_MAX_SIZE - DUCKY_HEADER_SIZE)
 
 #define DUCKY_PACKET_TYPE_COMMAND       0x00
+#define DUCKY_PACKET_TYPE_PRINTLN       0x01
 
 typedef struct DuckyHeader {
     uint8_t type;
