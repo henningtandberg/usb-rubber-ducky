@@ -60,15 +60,16 @@ void KeyboardKeypressCommandWithAllModifiers_ParseKeyboardKeypress_CommandContai
     free(command);
 }
 
-#define KEYPRESS_COMMAND_SPECIALS "KP BACKSPACE+TAB+RETURN+MENU+CAPS_LOCK"
+#define KEYPRESS_COMMAND_SPECIALS "KP SPACE+BACKSPACE+TAB+RETURN+MENU+CAPS_LOCK"
 void KeyboardKeypressCommandWithAllSpecials_ParseKeyboardKeypress_CommandContainsAllSpecials(void) {
     Command *command = CommandParser::parse_command(KEYPRESS_COMMAND_SPECIALS);
 
-    TEST_ASSERT_EQUAL(0xB2, (uint8_t)command->payload[0]);
-    TEST_ASSERT_EQUAL(0xB3, (uint8_t)command->payload[1]);
-    TEST_ASSERT_EQUAL(0xB0, (uint8_t)command->payload[2]);
-    TEST_ASSERT_EQUAL(0xED, (uint8_t)command->payload[3]);
-    TEST_ASSERT_EQUAL(0xC1, (uint8_t)command->payload[4]);
+    TEST_ASSERT_EQUAL(0x20, (uint8_t)command->payload[0]);
+    TEST_ASSERT_EQUAL(0xB2, (uint8_t)command->payload[1]);
+    TEST_ASSERT_EQUAL(0xB3, (uint8_t)command->payload[2]);
+    TEST_ASSERT_EQUAL(0xB0, (uint8_t)command->payload[3]);
+    TEST_ASSERT_EQUAL(0xED, (uint8_t)command->payload[4]);
+    TEST_ASSERT_EQUAL(0xC1, (uint8_t)command->payload[5]);
     free(command);
 }
 

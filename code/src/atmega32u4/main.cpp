@@ -113,14 +113,19 @@ void handle_command(Command * command) {
 
     switch (command->type) {
         case COMMAND_TYPE_KEYBOARD_KEYPRESS:
+            handle_keypress_command(command);
             break;
         case COMMAND_TYPE_KEYBOARD_PRINT:
+            Keyboard.print(command->payload);
             break;
         case COMMAND_TYPE_KEYBOARD_PRINTLN:
+            Keyboard.println(command->payload);
             break;
         case COMMAND_TYPE_MOUSE_MOVE:
+            // TODO
             break;
         case COMMAND_TYPE_MOUSE_CLICK:
+            // TODO
             break;
         case COMMAND_TYPE_EXECUTE_SCRIPT:
             break;
