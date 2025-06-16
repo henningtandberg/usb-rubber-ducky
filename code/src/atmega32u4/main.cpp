@@ -12,6 +12,8 @@
 #include <DuckySerial.h>
 
 const int debug = 1;
+const int dryRun = 1;
+
 DuckySerial duckySerial = DuckySerial::create(Serial1);
 
 void inline esp_power_on() {
@@ -103,6 +105,10 @@ void print_command(Command * command) {
 void handle_command(Command * command) {
     if (debug) {
         print_command(command);
+    }
+
+    if (dryRun) {
+        return;
     }
 
     switch (command->type) {
