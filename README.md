@@ -1,6 +1,7 @@
-# USB Rubber Ducky
-
-<img width="50%" align="center" src="docs/assets/rubber-ducky.png" />
+<div align="center">
+    <h1>USB Rubber Ducky</h1>   
+    <img width="50%" src="docs/assets/rubber-ducky.png" />
+</div>
 
 ## Useful References
 - https://www.youtube.com/watch?v=VQAzxBefLZo
