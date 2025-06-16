@@ -49,6 +49,8 @@ jobs:
           mv .pio/build/esp12e/firmware.bin tmp/esp8266.bin
           mv .pio/build/esp12e/littlefs.bin tmp/esp8266-fs.bin
           tar -cavf build.tar.gz tmp/*
+          pwd
+          ls -l
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
