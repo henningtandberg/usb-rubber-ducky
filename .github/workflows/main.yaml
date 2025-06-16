@@ -50,13 +50,8 @@ jobs:
           mv .pio/build/esp12e/littlefs.bin tmp/esp8266-fs.bin
           tar -cavf build.tar.gz tmp/*
 
-      - name: Upload assets
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build.tar.gz
-          asset_name: build-${{ runner.os }}.tar.gz
-          asset_content_type: application/tar.gz
+          name: build
+          path: ./build.tar.gz
