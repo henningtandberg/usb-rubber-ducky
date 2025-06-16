@@ -24,6 +24,7 @@ public:
     virtual size_t write(int n);
     virtual int read(void);
     virtual String readStringUntil(char chr);
+    virtual void flush(void);
 };
 
 #endif //USB_RUBBER_DUCKY_FAKEHARDWARESERIAL_H
