@@ -1,5 +1,12 @@
 <div align="center">
-    <h1>USB Rubber Ducky</h1>   
+    <h1>USB Rubber Ducky</h1>
+
+[//]: #
+
+[![Build, Test and Release](https://github.com/henningtandberg/usb-rubber-ducky/actions/workflows/main.yaml/badge.svg)](https://github.com/henningtandberg/usb-rubber-ducky/actions/workflows/main.yaml)
+</div>
+
+<div align="center">
     <img width="50%" src="docs/assets/rubber-ducky.png" />
 </div>
 
