@@ -4,6 +4,9 @@
 [//]: #
 
 [![Build, Test and Release](https://github.com/henningtandberg/usb-rubber-ducky/actions/workflows/main.yaml/badge.svg)](https://github.com/henningtandberg/usb-rubber-ducky/actions/workflows/main.yaml)
+![GitHub last commit](https://img.shields.io/github/last-commit/henningtandberg/usb-rubber-ducky)
+![GitHub License](https://img.shields.io/github/license/henningtandberg/usb-rubber-ducky)
+
 </div>
 
 <div align="center">
