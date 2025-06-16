@@ -44,8 +44,8 @@ jobs:
       - name: Tar and strip the binary
         run: |
           mkdir tmp
-          mv .pio/build/leonardo/firmware.bin tmp/atmega32u4.bin
-          mv .pio/build/leonardo-pass-through/firmware.bin tmp/atmega32u4-pass-through.bin
+          mv .pio/build/leonardo/firmware.hex tmp/atmega32u4.hex
+          mv .pio/build/leonardo-pass-through/firmware.hex tmp/atmega32u4-pass-through.hex
           mv .pio/build/esp12e/firmware.bin tmp/esp8266.bin
           mv .pio/build/esp12e/littlefs.bin tmp/esp8266-fs.bin
           tar -cavf build.tar.gz tmp/*
