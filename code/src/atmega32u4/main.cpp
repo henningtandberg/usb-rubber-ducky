@@ -13,7 +13,7 @@
 #include <DuckySerial.h>
 
 const int debug = 1;
-const int dryRun = 1;
+const int dryRun = 0;
 
 DuckySerial duckySerial = DuckySerial::create(Serial1);
 
@@ -62,7 +62,7 @@ void handle_keypress_command(Command * command) {
 }
 
 void print_command(Command * command) {
-    Serial.println("\nCommand");
+    Serial.println("Command");
     Serial.print("\tType:   ");
 
     switch (command->type) {
@@ -149,6 +149,8 @@ void handle_command(Command * command) {
             Keyboard.print(command->payload);
             break;
         case COMMAND_TYPE_KEYBOARD_PRINTLN:
+            Serial.print("Text: ");
+            Serial.println(command->payload);
             Keyboard.println(command->payload);
             break;
         case COMMAND_TYPE_MOUSE_MOVE:
@@ -169,7 +171,7 @@ void handle_command(Command * command) {
 char buffer[DUCKY_PACKET_MAX_SIZE];
 
 void print_packet_header(DuckyPacket * packet) {
-    Serial.println("\nPacket Header");
+    Serial.println("Packet Header");
     Serial.print("\tType:   ");
     Serial.println(packet->header.type, DEC);
     Serial.print("\tLength: ");
@@ -189,7 +191,8 @@ void loop() {
     }
 
     if (debug) {
-        Serial.print("\nBytes read: ");
+        Serial.println("---");
+        Serial.print("Bytes read: ");
         Serial.println(bytes_read);
     }
 
