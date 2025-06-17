@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include <Keyboard.h>
 #include <SPI.h>
+#include <SD.h>
 
 // Custom
 #include <CommandParser.h>
@@ -16,6 +17,8 @@ const int dryRun = 1;
 
 DuckySerial duckySerial = DuckySerial::create(Serial1);
 
+static void handle_command(Command *command);
+
 void inline esp_power_on() {
     pinMode(13, OUTPUT);
     digitalWrite(13, HIGH);
@@ -24,9 +27,14 @@ void inline esp_power_on() {
 void setup() {
     esp_power_on();
 
-    Keyboard.begin();
+    Keyboard.begin(KeyboardLayout_sv_SE);
     Serial.begin(115200);
     duckySerial.begin(115200);
+
+    if (!SD.begin(4)) {
+        Serial.println("SD card failed.");
+        return;
+    }
 }
 
 /*
@@ -102,6 +110,28 @@ void print_command(Command * command) {
 
 }
 
+void execute_script(const char * scriptPath) {
+    File scriptFile = SD.open(scriptPath, FILE_READ);
+
+    if (!scriptFile) {
+        Serial.print("Failed to open file ");
+        Serial.println(scriptPath);
+        return;
+    }
+
+    Serial.print("Opened file: ");
+    Serial.println(scriptPath);
+
+    while(scriptFile.available()) {
+        String line = scriptFile.readStringUntil('\n');
+        Command * command = CommandParser::parse_command(line.c_str());
+        handle_command(command);
+        free(command);
+    }
+
+    scriptFile.close();
+}
+
 void handle_command(Command * command) {
     if (debug) {
         print_command(command);
@@ -128,6 +158,7 @@ void handle_command(Command * command) {
             // TODO
             break;
         case COMMAND_TYPE_EXECUTE_SCRIPT:
+            execute_script(command->payload);
             break;
         case COMMAND_TYPE_UNKNOWN:
         default:
