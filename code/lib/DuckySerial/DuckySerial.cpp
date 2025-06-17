@@ -26,7 +26,7 @@ size_t DuckySerial::sendCommand(const char * buffer, size_t length) {
     size_t bytes_to_send = DUCKY_HEADER_SIZE + packet->header.len;
     _serial.write((char *)packet, bytes_to_send);
     _serial.write(EOT);
-    _serial.flush();
+    //_serial.flush();
 
     free(packet);
     return bytes_to_send;
@@ -38,7 +38,7 @@ size_t DuckySerial::sendPrintln(const char * buffer, size_t length) {
     size_t bytes_to_send = DUCKY_HEADER_SIZE + packet->header.len;
     _serial.write((char *)packet, bytes_to_send);
     _serial.write(EOT);
-    _serial.flush();
+    //_serial.flush();
 
     free(packet);
     return bytes_to_send;
