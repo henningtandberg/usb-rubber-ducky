@@ -91,7 +91,7 @@ void handleCustomScript(void) {
         free(command);
         rest = NULL; // Important for subsequent calls to strtok_r
         count++;
-        //delay(200);
+        delay(100);
     }
 
     //delay(1000);
