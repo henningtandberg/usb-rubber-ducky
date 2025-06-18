@@ -10,6 +10,14 @@
 </div>
 
 <div align="center">
+
+[//]: #
+
+[![Download Latest](https://img.shields.io/badge/Download%20Latest%20Version-8A2BE2)](https://nightly.link/henningtandberg/usb-rubber-ducky/workflows/main.yaml/main/build.zip)
+
+</div>
+
+<div align="center">
     <img width="50%" src="docs/assets/rubber-ducky.png" />
 </div>
 
