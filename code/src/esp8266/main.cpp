@@ -6,6 +6,7 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <LittleFS.h>
+#include <htmb.h>
 
 #include <DuckySerial.h>
 #include <CommandParser.h>
@@ -25,6 +26,18 @@ DuckySerial duckySerial = DuckySerial::create(Serial);
 
 static void handleCustomScript(void);
 
+void notFound(void) {
+    char *notFoundPage =
+    Body(
+        Header(
+            H1("404 Not Found"),
+            P("This page was not found..."),
+            Hr()));
+
+    httpServer.send(404, "text/html", notFoundPage);
+    free(notFoundPage);
+}
+
 void setup(void) {
     duckySerial.begin(115200);
 
@@ -40,6 +53,7 @@ void setup(void) {
     StaticContent::setup(LittleFS, httpServer);
     //Api.setup(); -> runs .on for API endpoints
     httpServer.on("/script/custom", HTTP_POST, handleCustomScript);
+    httpServer.onNotFound(notFound);
 
     httpServer.begin();
 
