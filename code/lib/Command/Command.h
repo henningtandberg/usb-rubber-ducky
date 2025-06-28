@@ -14,6 +14,7 @@
 #define COMMAND_TYPE_MOUSE_MOVE         0x04
 #define COMMAND_TYPE_MOUSE_CLICK        0x05
 #define COMMAND_TYPE_EXECUTE_SCRIPT     0x06
+#define COMMAND_TYPE_DELAY              0x07
 
 typedef struct Command {
     uint8_t type;

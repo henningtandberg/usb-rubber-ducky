@@ -2,6 +2,7 @@
 // Created by Henning Tandberg on 10/05/2025.
 //
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <Command.h>
@@ -31,6 +32,8 @@ Command * CommandParser::parse_command(const char * command_string) {
         return CommandParser::parse_mouse_click(command_string_without_type);
     } */ else if (strcmp(Commandype, "EXEC") == 0) {
         command = CommandParser::parse_execute_script(command_string_without_type);
+    } else if (strcmp(Commandype, "DELAY") == 0) {
+        command = CommandParser::parse_delay(command_string_without_type);
     } else {
         command = (Command *)malloc(sizeof(Command));
         command->type = COMMAND_TYPE_UNKNOWN;
@@ -100,6 +103,20 @@ Command * CommandParser::parse_execute_script(const char * command_string_withou
     command->type = COMMAND_TYPE_EXECUTE_SCRIPT;
     command->len = script_path_len;
     memcpy(command->payload, command_string_without_type, script_path_len);
+
+    return command;
+}
+
+Command * CommandParser::parse_delay(const char * command_string_without_type) {
+    uint16_t delay = 0;
+    sscanf(command_string_without_type, "%hd", &delay);
+
+    Command *command = (Command *)malloc(sizeof(Command) + sizeof(uint16_t));
+
+    command->type = COMMAND_TYPE_DELAY;
+    command->len = 2;
+    command->payload[0] = 0xFF & (delay >> 8);
+    command->payload[1] = 0xFF & delay;
 
     return command;
 }

@@ -32,4 +32,8 @@ void ExecuteScriptCommand_ParseCommand_CommandTypeIsSetToExecuteScript(void);
 void ExecuteScriptCommand_ParseCommand_CommandLenIsLengthOfScriptPath(void);
 void ExecuteScriptCommand_ParseCommand_CommandContainsCorrectScriptToExecute(void);
 
+void DelayCommand_ParseCommand_CommandTypeIsSetToDelay(void);
+void DelayCommand_ParseCommand_CommandLenIsLengthOfTwoBytes(void);
+void DelayCommand_ParseCommand_CommandContainsCorrectDelayInMillis(void);
+
 #endif //USB_RUBBER_DUCKY_COMMANDPARSERTESTS_H

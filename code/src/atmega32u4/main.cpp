@@ -132,6 +132,20 @@ void execute_script(const char * scriptPath) {
     scriptFile.close();
 }
 
+void delay(Command * command) {
+    if (command->len != 2) {
+        Serial.println("Delay should be two bytes!");
+        return;
+    }
+
+    uint16_t delayMillis = (0xFF00 & ((uint16_t)(command->payload[0]) << 8));
+    delayMillis |= (0x00FF & (uint16_t)(command->payload[1]));
+
+    delay(delayMillis);
+    //unsigned long time_now = millis();
+    //while(millis() < (time_now + delayMillis)) { }
+}
+
 void handle_command(Command * command) {
     if (debug) {
         print_command(command);
@@ -161,6 +175,9 @@ void handle_command(Command * command) {
             break;
         case COMMAND_TYPE_EXECUTE_SCRIPT:
             execute_script(command->payload);
+            break;
+        case COMMAND_TYPE_DELAY:
+            delay(command);
             break;
         case COMMAND_TYPE_UNKNOWN:
         default:

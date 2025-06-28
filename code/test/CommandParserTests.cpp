@@ -294,7 +294,7 @@ void KeyboardPrintlnCommand_ParseCommand_CommandContainsCorrectStringToPrint(voi
 // MM and MC here
 
 /**
- * Command PLN Tests
+ * Command EXEC Tests
  */
 
 #define EXECUTE_SCRIPT_COMMAND "EXEC ./script.rd"
@@ -316,5 +316,33 @@ void ExecuteScriptCommand_ParseCommand_CommandContainsCorrectScriptToExecute(voi
     Command *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
 
     TEST_ASSERT_EQUAL(0, strcmp("./script.rd", command->payload));
+    free(command);
+}
+
+/**
+ * Command DELAY Tests
+ */
+
+#define DELAY_COMMAND "DELAY 1000"
+void DelayCommand_ParseCommand_CommandTypeIsSetToDelay(void) {
+    Command *command = CommandParser::parse_command(DELAY_COMMAND);
+
+    TEST_ASSERT_EQUAL(COMMAND_TYPE_DELAY, command->type);
+    free(command);
+}
+
+void DelayCommand_ParseCommand_CommandLenIsLengthOfTwoBytes(void) {
+    Command *command = CommandParser::parse_command(DELAY_COMMAND);
+
+    TEST_ASSERT_EQUAL(2, command->len);
+    free(command);
+}
+
+void DelayCommand_ParseCommand_CommandContainsCorrectDelayInMillis(void) {
+    Command *command = CommandParser::parse_command(EXECUTE_SCRIPT_COMMAND);
+
+    uint16_t delay = (0xFF00 & ((uint16_t)(command->payload[0]) << 8));
+    delay |= (0x00FF & (uint16_t)(command->payload[1]));
+    TEST_ASSERT_EQUAL(1000, delay);
     free(command);
 }

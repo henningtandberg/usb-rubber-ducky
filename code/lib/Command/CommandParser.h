@@ -26,6 +26,7 @@ private:
     //static Command parse_mouse_move(const std::string& command_string_without_type);
     //static Command parse_mouse_click(const std::string& command_string_without_type);
     static Command * parse_execute_script(const char * command_string_without_type);
+    static Command * parse_delay(const char * command_string_without_type);
     static int count_tokens(const char * str, const char * delimiter);
     static int index_of(const char * str, char chr);
 };
