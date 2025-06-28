@@ -6,11 +6,13 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <LittleFS.h>
-#include <htmb.h>
 
+#include <Api.h>
 #include <DuckySerial.h>
 #include <CommandParser.h>
 #include <StaticContent.h>
+
+#define DEBUG
 
 const char * host = "ducky";
 const char * ssid = "ESPap";
@@ -22,21 +24,12 @@ IPAddress subnet(255,255,255,0);
 
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
+
+Api api = Api::create(httpServer);
 DuckySerial duckySerial = DuckySerial::create(Serial);
 
 static void handleCustomScript(void);
 
-void notFound(void) {
-    char *notFoundPage =
-    Body(
-        Header(
-            H1("404 Not Found"),
-            P("This page was not found..."),
-            Hr()));
-
-    httpServer.send(404, "text/html", notFoundPage);
-    free(notFoundPage);
-}
 
 void setup(void) {
     duckySerial.begin(115200);
@@ -45,15 +38,14 @@ void setup(void) {
 
     WiFi.mode(WIFI_AP);
     WiFi.softAP(ssid, password);
-    WiFi.softAPConfig(local_IP, gateway,subnet);
+    WiFi.softAPConfig(local_IP, gateway, subnet);
 
     MDNS.begin(host);
 
     httpUpdater.setup(&httpServer);
     StaticContent::setup(LittleFS, httpServer);
-    //Api.setup(); -> runs .on for API endpoints
+    api.mapControllers();
     httpServer.on("/script/custom", HTTP_POST, handleCustomScript);
-    httpServer.onNotFound(notFound);
 
     httpServer.begin();
 
